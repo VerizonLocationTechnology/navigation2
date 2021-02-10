@@ -112,6 +112,7 @@ void
 StaticLayer::reset()
 {
   has_updated_data_ = true;
+  current_ = false;
 }
 
 void
@@ -422,6 +423,7 @@ StaticLayer::updateCosts(
     }
   }
   update_in_progress_.store(false);
+  current_ = true;
 }
 
 }  // namespace nav2_costmap_2d

@@ -103,6 +103,7 @@ void ObstacleLayer::onInitialize()
 
   ObstacleLayer::matchSize();
   current_ = true;
+  was_reset_ = false;
 
   global_frame_ = layered_costmap_->getGlobalFrameID();
 
@@ -438,6 +439,12 @@ ObstacleLayer::updateCosts(
   if (!enabled_) {
     return;
   }
+  
+  // if not current due to reset, set current now after clearing
+  if (!current_ && was_reset_) {
+    was_reset_ = false;
+    current_ = true;
+  }
 
   if (footprint_clearing_enabled_) {
     setConvexPolygonCost(transformed_footprint_, nav2_costmap_2d::FREE_SPACE);
@@ -642,7 +649,8 @@ ObstacleLayer::reset()
 {
   resetMaps();
   resetBuffersLastUpdated();
-  current_ = true;
+  current_ = false;
+  was_reset_ = true;
 }
 
 void
