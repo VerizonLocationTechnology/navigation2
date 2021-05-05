@@ -125,7 +125,8 @@ BtNavigator::on_configure(const rclcpp_lifecycle::State & /*state*/)
   // Put items on the blackboard
   blackboard_->set<rclcpp::Node::SharedPtr>("node", client_node_);  // NOLINT
   blackboard_->set<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer", tf_);  // NOLINT
-  blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));  // NOLINT
+  // Increasing this value from 10 due to excessive timeouts under CPU load
+  blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(100));  // NOLINT
   blackboard_->set<bool>("path_updated", false);  // NOLINT
   blackboard_->set<bool>("initial_pose_received", false);  // NOLINT
   blackboard_->set<int>("number_recoveries", 0);  // NOLINT
